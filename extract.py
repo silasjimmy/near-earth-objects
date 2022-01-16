@@ -14,9 +14,8 @@ You'll edit this file in Task 2.
 """
 import csv
 import json
-import os
 
-from models import NearEarthObject, CloseApproach
+# from models import NearEarthObject, CloseApproach
 
 
 def load_neos(neo_csv_path):
@@ -28,7 +27,16 @@ def load_neos(neo_csv_path):
     """
     try:
         with open(neo_csv_path) as f:
-            neos = csv.DictReader(f)
+            reader = csv.DictReader(f)
+            neos = [
+                {
+                    'designation': neo.get('pdes', ''),
+                    'name': neo.get('name'),
+                    'diameter': neo.get('diameter', 'nan'),
+                    'hazardous': neo.get('pha')
+                }
+                for neo in reader
+            ]
             return tuple(neos)
     except Exception as e:
         print('Something went wrong!', e)
@@ -55,12 +63,15 @@ def load_approaches(cad_json_path):
                 close_approach = {
                     fields[index]: value for index, value in enumerate(approach)}
                 # Add it to the list of all close approaches
-                close_approaches.append(close_approach)
+                close_approaches.append(
+                    {
+                        'designation': close_approach.get('des'),
+                        'time': close_approach.get('cd'),
+                        'distance': close_approach.get('dist'),
+                        'velocity': close_approach.get('v_rel')
+                    }
+                )
 
         return tuple(close_approaches)
     except Exception as e:
         print('Something went wrong!', e)
-
-
-# path = os.path.join(os.getcwd(), 'data/cad.json')
-# print(len(load_approaches(path)))

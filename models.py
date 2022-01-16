@@ -17,6 +17,7 @@ quirks of the data set, such as missing names and unknown diameters.
 
 You'll edit this file in Task 1.
 """
+
 from helpers import cd_to_datetime, datetime_to_str
 
 
@@ -49,10 +50,13 @@ class NearEarthObject:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        self.designation = info.get('designation', '')
+        self.designation = info.get('designation')
         self.name = info.get('name')
-        self.diameter = float(info.get('diameter', 'nan'))
-        self.hazardous = bool(info.get('hazardous'))
+        self.diameter = float(info.get('diameter'))
+
+        # Convert to boolean convertable type
+        hazardous = 1 if info.get('hazardous') == 'Y' else 0
+        self.hazardous = bool(hazardous)
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -147,7 +151,7 @@ class CloseApproach:
 
         Return `str(self)`.
         """
-        return f"At {self.time_str}, '{self.neo.fullname}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
+        return f"At {self.time_str}, (NEOs name) approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
