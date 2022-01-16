@@ -14,25 +14,53 @@ You'll edit this file in Task 2.
 """
 import csv
 import json
+import os
 
 from models import NearEarthObject, CloseApproach
 
 
 def load_neos(neo_csv_path):
-    """Read near-Earth object information from a CSV file.
+    """
+    Read near-Earth object information from a CSV file.
 
     :param neo_csv_path: A path to a CSV file containing data about near-Earth objects.
-    :return: A collection of `NearEarthObject`s.
+    :return: A tuple of `NearEarthObject`s.
     """
-    # TODO: Load NEO data from the given CSV file.
-    return ()
+    try:
+        with open(neo_csv_path) as f:
+            neos = csv.DictReader(f)
+            return tuple(neos)
+    except Exception as e:
+        print('Something went wrong!', e)
 
 
 def load_approaches(cad_json_path):
-    """Read close approach data from a JSON file.
+    """
+    Read close approach data from a JSON file.
 
     :param cad_json_path: A path to a JSON file containing data about close approaches.
-    :return: A collection of `CloseApproach`es.
+    :return: A tuple of `CloseApproach`es.
     """
-    # TODO: Load close approach data from the given JSON file.
-    return ()
+    try:
+        with open(cad_json_path) as f:
+            reader = json.load(f)
+
+            # Get the fields and data for the close approaches
+            fields = reader.get('fields')
+            data = reader.get('data')
+
+            close_approaches = []
+            for approach in data:
+                # Create a close approach dictionary
+                close_approach = {
+                    fields[index]: value for index, value in enumerate(approach)}
+                # Add it to the list of all close approaches
+                close_approaches.append(close_approach)
+
+        return tuple(close_approaches)
+    except Exception as e:
+        print('Something went wrong!', e)
+
+
+# path = os.path.join(os.getcwd(), 'data/cad.json')
+# print(len(load_approaches(path)))
