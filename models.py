@@ -51,8 +51,8 @@ class NearEarthObject:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         self.designation = info.get('designation')
-        self.name = info.get('name')
         self.diameter = float(info.get('diameter'))
+        self.name = info.get('name') if info.get('name') != '' else None
 
         # Convert to boolean convertable type
         hazardous = 1 if info.get('hazardous') == 'Y' else 0
@@ -151,7 +151,7 @@ class CloseApproach:
 
         Return `str(self)`.
         """
-        return f"At {self.time_str}, (NEOs name) approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
+        return f"At {self.time_str}, {self.neo.fullname} approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
