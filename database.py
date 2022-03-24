@@ -103,7 +103,7 @@ class NEODatabase:
         """
         return self._neos_to_names.get(name.capitalize())
 
-    def query(self, filters=()):
+    def query(self, filters=[]):
         """Query close approaches to generate those that match a collection of filters.
 
         This generates a stream of `CloseApproach` objects that match all of the

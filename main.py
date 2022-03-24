@@ -70,7 +70,8 @@ def date_fromisoformat(date_string):
     try:
         return datetime.datetime.strptime(date_string, '%Y-%m-%d').date()
     except ValueError:
-        raise argparse.ArgumentTypeError(f"'{date_string}' is not a valid date. Use YYYY-MM-DD.")
+        raise argparse.ArgumentTypeError(
+            f"'{date_string}' is not a valid date. Use YYYY-MM-DD.")
 
 
 def make_parser():
@@ -231,7 +232,8 @@ def query(database, args):
         elif args.outfile.suffix == '.json':
             write_to_json(limit(results, args.limit), args.outfile)
         else:
-            print("Please use an output file that ends with `.csv` or `.json`.", file=sys.stderr)
+            print(
+                "Please use an output file that ends with `.csv` or `.json`.", file=sys.stderr)
 
 
 class NEOShell(cmd.Cmd):
@@ -362,7 +364,8 @@ class NEOShell(cmd.Cmd):
 
     def precmd(self, line):
         """Watch for changes to the files in this project."""
-        changed = [f for f in PROJECT_ROOT.glob('*.py') if f.stat().st_mtime > _START]
+        changed = [f for f in PROJECT_ROOT.glob(
+            '*.py') if f.stat().st_mtime > _START]
         if changed:
             print("The following file(s) have been modified since this interactive session began: "
                   f"{', '.join(str(f.relative_to(PROJECT_ROOT)) for f in changed)}.",
@@ -371,7 +374,8 @@ class NEOShell(cmd.Cmd):
                 print("To include these changes, please exit and restart this interactive session.",
                       file=sys.stderr)
             else:
-                print("Preemptively terminating the session aggressively.", file=sys.stderr)
+                print("Preemptively terminating the session aggressively.",
+                      file=sys.stderr)
                 return 'exit'
         return line
 
@@ -382,7 +386,8 @@ def main():
     args = parser.parse_args()
 
     # Extract data from the data files into structured Python objects.
-    database = NEODatabase(load_neos(args.neofile), load_approaches(args.cadfile))
+    database = NEODatabase(load_neos(args.neofile),
+                           load_approaches(args.cadfile))
 
     # Run the chosen subcommand.
     if args.cmd == 'inspect':
@@ -390,7 +395,8 @@ def main():
     elif args.cmd == 'query':
         query(database, args)
     elif args.cmd == 'interactive':
-        NEOShell(database, inspect_parser, query_parser, aggressive=args.aggressive).cmdloop()
+        NEOShell(database, inspect_parser, query_parser,
+                 aggressive=args.aggressive).cmdloop()
 
 
 if __name__ == '__main__':
