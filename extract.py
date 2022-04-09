@@ -38,7 +38,7 @@ def load_neos(neo_csv_path):
                             'name': neo.get('name') if neo.get('name') != '' else None,
                             'diameter': float('nan' if neo.get(
                                 'diameter') == '' else neo.get('diameter')),
-                            'hazardous': bool(1 if neo.get('pha') == 'Y' else 0)
+                            'hazardous': bool(True if neo.get('pha') == 'Y' else False)
                         }
                     )
                 )

@@ -58,6 +58,20 @@ class NearEarthObject:
         # Create an empty initial collection of linked approaches.
         self.approaches = []
 
+    def serialize(self):
+        '''
+        Serializes the NEO's data to a neat way.
+
+        Returns: 
+            (dict) Serialized NEO data.
+        '''
+        return {
+            'designation': self.designation,
+            'name': self.name,
+            'diameter_km': self.diameter,
+            'potentially_hazardous': self.hazardous
+        }
+
     @property
     def fullname(self):
         """
@@ -119,6 +133,19 @@ class CloseApproach:
 
         # Create an attribute for the referenced NEO, originally None.
         self.neo = None
+
+    def serialize(self):
+        '''
+        Serializes the Close approaches' data to a neat way.
+
+        Returns: 
+            (dict) Serialized close approach data.
+        '''
+        return {
+            'datetime_utc': datetime_to_str(self.time),
+            'distance_au': self.distance,
+            'velocity_km_s': self.velocity
+        }
 
     @property
     def time_str(self):
