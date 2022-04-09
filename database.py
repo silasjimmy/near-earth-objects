@@ -13,11 +13,6 @@ You'll edit this file in Tasks 2 and 3.
 """
 
 
-# from extract import load_neos
-# from extract import load_approaches
-# import os
-
-
 class NEODatabase:
     """A database of near-Earth objects and their close approaches.
 
@@ -103,7 +98,7 @@ class NEODatabase:
         """
         return self._neos_to_names.get(name.capitalize())
 
-    def query(self, filters=[]):
+    def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.
 
         This generates a stream of `CloseApproach` objects that match all of the
@@ -124,15 +119,3 @@ class NEODatabase:
         else:
             for approach in self._approaches:
                 yield approach
-
-
-# neos_path = os.path.join(os.getcwd(), 'data/neos.csv')
-# ca_path = os.path.join(os.getcwd(), 'data/cad.json')
-
-# neos = load_neos(neos_path)
-# approaches = load_approaches(ca_path)
-
-# db = NEODatabase(neos, approaches)
-
-# print(db._neos[0])
-# print(db._approaches[0])

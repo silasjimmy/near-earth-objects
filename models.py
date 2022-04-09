@@ -51,12 +51,9 @@ class NearEarthObject:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         self.designation = info.get('designation')
-        self.diameter = float(info.get('diameter'))
-        self.name = info.get('name') if info.get('name') != '' else None
-
-        # Convert to boolean convertable type
-        hazardous = 1 if info.get('hazardous') == 'Y' else 0
-        self.hazardous = bool(hazardous)
+        self.diameter = info.get('diameter')
+        self.name = info.get('name')
+        self.hazardous = info.get('hazardous')
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -117,8 +114,8 @@ class CloseApproach:
         """
         self._designation = info.get('designation')
         self.time = cd_to_datetime(info.get('time'))
-        self.distance = float(info.get('distance'))
-        self.velocity = float(info.get('velocity'))
+        self.distance = info.get('distance')
+        self.velocity = info.get('velocity')
 
         # Create an attribute for the referenced NEO, originally None.
         self.neo = None

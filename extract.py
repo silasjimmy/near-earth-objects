@@ -31,15 +31,14 @@ def load_neos(neo_csv_path):
 
             neos = []
             for neo in reader:
-                diameter = 'nan' if neo.get(
-                    'diameter') == '' else neo.get('diameter')
                 neos.append(
                     NearEarthObject(
                         **{
                             'designation': neo.get('pdes', ''),
-                            'name': neo.get('name'),
-                            'diameter': diameter,
-                            'hazardous': neo.get('pha')
+                            'name': neo.get('name') if neo.get('name') != '' else None,
+                            'diameter': float('nan' if neo.get(
+                                'diameter') == '' else neo.get('diameter')),
+                            'hazardous': bool(1 if neo.get('pha') == 'Y' else 0)
                         }
                     )
                 )
@@ -74,8 +73,8 @@ def load_approaches(cad_json_path):
                         **{
                             'designation': close_approach.get('des'),
                             'time': close_approach.get('cd'),
-                            'distance': close_approach.get('dist'),
-                            'velocity': close_approach.get('v_rel')
+                            'distance': float(close_approach.get('dist')),
+                            'velocity': float(close_approach.get('v_rel'))
                         }
                     )
                 )
