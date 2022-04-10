@@ -1,3 +1,5 @@
+"""Functions to load the Nearth Earth Objects and Close Approaches from the data files."""
+
 import csv
 import json
 from models import NearEarthObject, CloseApproach
@@ -19,14 +21,16 @@ def load_neos(neo_csv_path):
                 neos.append(
                     NearEarthObject(
                         **{
-                            'designation': neo.get('pdes', ''),
-                            'name': neo.get('name') if neo.get('name') != '' else None,
-                            'diameter': float('nan' if neo.get(
-                                'diameter') == '' else neo.get('diameter')),
-                            'hazardous': bool(True if neo.get('pha') == 'Y' else False)
-                        }
-                    )
-                )
+                            'designation':
+                            neo.get('pdes', ''),
+                            'name':
+                            neo.get('name') if neo.get('name') != '' else None,
+                            'diameter':
+                            float('nan' if neo.get('diameter') ==
+                                  '' else neo.get('diameter')),
+                            'hazardous':
+                            bool(True if neo.get('pha') == 'Y' else False)
+                        }))
             return neos
     except Exception as e:
         print('Something went wrong!', e)
@@ -51,7 +55,9 @@ def load_approaches(cad_json_path):
             for approach in data:
                 # Create a close approach dictionary
                 close_approach = {
-                    fields[index]: value for index, value in enumerate(approach)}
+                    fields[index]: value
+                    for index, value in enumerate(approach)
+                }
                 # Add it to the list of all close approaches
                 close_approaches.append(
                     CloseApproach(
@@ -60,9 +66,7 @@ def load_approaches(cad_json_path):
                             'time': close_approach.get('cd'),
                             'distance': float(close_approach.get('dist')),
                             'velocity': float(close_approach.get('v_rel'))
-                        }
-                    )
-                )
+                        }))
 
         return close_approaches
     except Exception as e:
